@@ -2,9 +2,11 @@ package com.CodeShuttle.module1.CakeBaker;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import java.util.Scanner;
 
@@ -20,6 +22,9 @@ public class CakeBaker implements CommandLineRunner {
     //    @Autowired
     final Syrup strawberrySyrupObj;
 
+    @Value("${bake.cakeType}")
+    private int cakeType;
+
     public CakeBaker(@Qualifier("FrostingChocolate") Frosting chocolateFrostingObj,
                      @Qualifier("FrostingStrawberry") Frosting strawberryFrostingObj,
                      @Qualifier("SyrupChocolate") Syrup chocolateSyrupObj,
@@ -30,15 +35,14 @@ public class CakeBaker implements CommandLineRunner {
         this.strawberrySyrupObj = strawberrySyrupObj;
     }
 
-    /*
-    void bakeCake(int cakeType){
+
+    void bakeCake() {
 
         System.out.println("Baking started...");
-
         Frosting selectedFrosting = null;
         Syrup selectedSyrup = null;
 
-        switch (cakeType){
+        switch (cakeType) {
             case 1:
                 selectedFrosting = this.chocolateFrostingObj;
                 selectedSyrup = this.chocolateSyrupObj;
@@ -60,10 +64,12 @@ public class CakeBaker implements CommandLineRunner {
                 break;
         }
 
+        assert selectedFrosting != null;
         selectedFrosting.getFrostingType();
         selectedSyrup.getSyrupType();
         System.out.println("Your Cake is ready!!");
-        */
+    }
+    /*
     void bakeCake1(){
         chocolateFrostingObj.getFrostingType();
         strawberrySyrupObj.getSyrupType();
@@ -73,6 +79,8 @@ public class CakeBaker implements CommandLineRunner {
         strawberryFrostingObj.getFrostingType();
         chocolateSyrupObj.getSyrupType();
     }
+
+     */
 
     public static void main(String[] args) {
         SpringApplication.run(CakeBaker.class, args);
@@ -90,11 +98,9 @@ public class CakeBaker implements CommandLineRunner {
 //        int CakeType = scanner.nextInt();
 //        bakeCake(CakeType);
         System.out.println("1st Cake Baking started...");
-        bakeCake1();
+        bakeCake();
         System.out.println("Your 1st Cake is ready!!");
         System.out.println();
-        System.out.println("2nd Cake Baking started...");
-        bakeCake2();
-        System.out.println("Your 2nd Cake is ready!!");
+
     }
 }
